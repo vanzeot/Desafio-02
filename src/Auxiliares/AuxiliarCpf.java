@@ -10,8 +10,6 @@ public class AuxiliarCpf {
                 .replace(".","")
                 .replace("/","");
 
-        System.out.println("[LOG]~CPF após replace(): "+ cpfCru);
-
         if (cpfCru.equals("00000000000") || cpfCru.equals("11111111111") || cpfCru.equals("22222222222") || cpfCru.equals("33333333333") || cpfCru.equals("44444444444") || cpfCru.equals("55555555555") || cpfCru.equals("66666666666") || cpfCru.equals("77777777777") || cpfCru.equals("88888888888") || cpfCru.equals("99999999999") || (cpfCru.length() != 11))
             return (false);
 
