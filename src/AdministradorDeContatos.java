@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class AdministradorDeContatos {
 
     static ArrayList<Contato> contatos;
+    Scanner scanner = new Scanner(System.in);
 
     public AdministradorDeContatos(){
         contatos = new ArrayList<>();
@@ -36,5 +37,51 @@ public class AdministradorDeContatos {
         }
 
         return indice;
+    }
+
+    public void acoesDeContatos(){
+
+        boolean emServico = true;
+        int indice;
+
+        while (emServico){
+
+            Mensageria.mostrarAcoesDeContato();
+            String acao = scanner.nextLine();
+
+            switch(acao){
+
+                case "1":
+                    contatos.add(new Contato().inserirDados());
+                    break;
+
+                case "2":
+                    indice = AdministradorDeContatos.selecionarContato(contatos);
+                    if (indice != -1) {
+                        contatos.set(indice, new Contato().inserirDados());
+                    }
+                    break;
+
+                case "3":
+                    if (this.contatos.size() > 2) {
+                        indice = AdministradorDeContatos.selecionarContato(contatos);
+                        if (indice != -1) {
+                            contatos.remove(indice);
+                        }
+                    }
+                    else {
+                        System.out.println("Não há como remover, pois deve haver no mínimo 2.");
+                    }
+                    break;
+
+                case "4":
+                    emServico = false;
+                    break;
+
+                default:
+                    System.out.println("Opção inválida.");
+
+            }
+        }
     }
 }

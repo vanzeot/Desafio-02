@@ -5,7 +5,7 @@ public class Main {
 
         // Instanciação de objetos/variáveis
         boolean estaEmServico = true;
-        AdministradorDePessoas administradorDePessoas = new AdministradorDePessoas();
+        new AdministradorDePessoas();
 
         popularListagem(AdministradorDePessoas.pessoas);
 
@@ -25,7 +25,8 @@ public class Main {
 
 
     /*
-    Método abaixo criado apenas para a listagem não aparecer vazia no início.
+    Método abaixo criado apenas para a listagem não aparecer vazia no início. Mesmo assim,
+    está prevista esta situação de lista vazia, em que é mostrada a mensagem "Listagem vazia".
      */
 
     public static void popularListagem(ArrayList<Pessoa> pessoas){
@@ -33,13 +34,13 @@ public class Main {
         Contato contato1otavio = new Contato(
                 "Elis",
                 "elis@gmail.com",
-                "23234-4243"
+                "3234-4243"
         );
 
         Contato contato2otavio = new Contato(
                 "Antonio",
                 "antonio@gmail.com",
-                "23234-4243"
+                "3234-4243"
         );
 
         ArrayList<Contato> contatosOtavio = new ArrayList<>();

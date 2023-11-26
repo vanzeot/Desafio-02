@@ -1,3 +1,6 @@
+import Auxiliares.AuxiliarEmail;
+import Auxiliares.AuxiliarTelefone;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +25,9 @@ public class Pessoa {
     private String cpf;
     private String dataDeNascimento;
     private ArrayList<Contato> contatos = new ArrayList<>();
-    
+
+    private AdministradorDeContatos administradorDeContatos = new AdministradorDeContatos();
+
     Scanner scanner = new Scanner(System.in);
     //contatos;
 
@@ -56,9 +61,13 @@ public class Pessoa {
 
     public Pessoa selecionarTelefone(){
         System.out.println("Digite o telefone da pessoa: ");
-        String input = scanner.nextLine().trim();
-        // TODO: ADICIONAR TRATAMENTO/FORMATAÇÃO
-        this.telefone = lidarComInputEmBranco(input);
+        String telefone = scanner.nextLine().trim();
+
+        while (AuxiliarTelefone.telefoneNaoEhValido(telefone)){
+            System.out.println("O telefone não é válido. Tente novamente: ");
+            telefone = scanner.nextLine().trim();
+        }
+        this.telefone = AuxiliarTelefone.formatarTelefone(telefone);
 
         return this;
     }
@@ -77,13 +86,11 @@ public class Pessoa {
         System.out.println("Digite o email da pessoa: ");
         String email = scanner.nextLine().trim();
 
-        if (!(email.isBlank() && this.email != null)){
-            while (this.email == null && emailNaoEhValido(email)){
-                System.out.println("O email não é válido. Tente novamente: ");
-                email = scanner.nextLine().trim();
-            }
-            this.email = email;
+        while (AuxiliarEmail.emailNaoEhValido(email)){
+            System.out.println("O email não é válido. Tente novamente: ");
+            email = scanner.nextLine().trim();
         }
+        this.email = AuxiliarEmail.formatarEmail(email);
 
         return this;
     }
@@ -96,8 +103,8 @@ public class Pessoa {
                 System.out.println("O CPF não é válido. Tente novamente: ");
                 cpf = scanner.nextLine().trim();
 
-            this.cpf = formataCpf(cpf);
         }
+        this.cpf = formataCpf(cpf);
 
         return this;
     }
@@ -155,56 +162,10 @@ public class Pessoa {
                     break;
 
                 case "7":
-                    acoesDeContatos();
+                    administradorDeContatos.acoesDeContatos();
                     break;
 
                 case "8":
-                    emServico = false;
-                    break;
-
-                default:
-                    System.out.println("Opção inválida.");
-
-            }
-        }
-    }
-
-    public void acoesDeContatos(){
-
-        boolean emServico = true;
-        int indice;
-
-        while (emServico){
-
-            Mensageria.mostrarAcoesDeContato();
-            String acao = scanner.nextLine();
-
-            switch(acao){
-
-                case "1":
-                    contatos.add(new Contato().inserirDados());
-                    break;
-
-                case "2":
-                    indice = AdministradorDeContatos.selecionarContato(contatos);
-                    if (indice != -1) {
-                        contatos.set(indice, new Contato().inserirDados());
-                    }
-                    break;
-
-                case "3":
-                    if (this.contatos.size() > 2) {
-                        indice = AdministradorDeContatos.selecionarContato(contatos);
-                        if (indice != -1) {
-                            contatos.remove(indice);
-                        }
-                    }
-                    else {
-                        System.out.println("Não há como remover, pois deve haver no mínimo 2.");
-                    }
-                    break;
-
-                case "4":
                     emServico = false;
                     break;
 
@@ -259,28 +220,18 @@ public class Pessoa {
         }
 
         return input;
-    }
 
-    private boolean emailNaoEhValido(String email) {
-        email.trim();
-        String regex = "^(.+)@(.+)$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-
-        return !matcher.matches();
     }
 
     public String imprimirContatos(){
 
         String dados = "";
          for (Contato contato : contatos) {
-             dados = dados + contato.getNome() + ", " + contato.getEmail() + ", " + contato.getTelefone() + " - ";
+             dados = dados + "< " + contato.getNome() + ", " + contato.getEmail() + ", " + contato.getTelefone() + " > ";
          }
-         return dados.substring(0,dados.length()-4);
+         return dados.substring(0,dados.length()-1);
 
     }
-
-
 
     //=====================
     //       GETTERS
