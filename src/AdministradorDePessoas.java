@@ -146,7 +146,9 @@ public class AdministradorDePessoas {
                 indice++;
             }
         }
+        if (indice == pessoas.size() || pessoas.isEmpty()) indice = -1;
 
+        System.out.println("indice = "+indice);
         return indice;
 
     }

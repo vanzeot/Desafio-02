@@ -99,9 +99,35 @@ public class Pessoa {
         System.out.println("Digite o CPF da pessoa: ");
         String cpf = scanner.nextLine().trim();
 
-        while (!cpfEhValido(cpf)){
+        boolean cpfNaoEhValido = !cpfEhValido(cpf);
+        boolean cpfEhDeOutraPessoa = false;
+
+        int resultadoIndicePorCpf = AdministradorDePessoas.getIndicePorCpf(cpf);
+
+        if (!cpfNaoEhValido) {
+            // Cpf é de outra pessoa se a busca encontra alguém e este alguém tem nome diferente do usuário em questão
+            cpfEhDeOutraPessoa = !(resultadoIndicePorCpf == -1)
+                    && !AdministradorDePessoas.pessoas.get(resultadoIndicePorCpf).getNome().equals(this.nome);
+        }
+
+        while (cpfNaoEhValido || cpfEhDeOutraPessoa){
+
+            if (cpfNaoEhValido){
                 System.out.println("O CPF não é válido. Tente novamente: ");
-                cpf = scanner.nextLine().trim();
+            } else {
+                System.out.println("O CPF já está atrelado à pessoa '"+AdministradorDePessoas.pessoas.get(resultadoIndicePorCpf).getNome()
+                        + "'. Tente novamente: ");
+            }
+
+            cpf = scanner.nextLine().trim();
+
+            cpfNaoEhValido = !cpfEhValido(cpf);
+            resultadoIndicePorCpf = AdministradorDePessoas.getIndicePorCpf(cpf);
+
+            if (!cpfNaoEhValido) {
+                cpfEhDeOutraPessoa = !(resultadoIndicePorCpf == -1)
+                        && !AdministradorDePessoas.pessoas.get(resultadoIndicePorCpf).getNome().equals(this.nome);
+            }
 
         }
         this.cpf = formataCpf(cpf);
