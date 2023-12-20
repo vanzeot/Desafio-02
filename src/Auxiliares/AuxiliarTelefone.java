@@ -1,8 +1,5 @@
 package Auxiliares;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class AuxiliarTelefone {
 
     public static boolean telefoneNaoEhValido(String telefone) {

@@ -12,22 +12,29 @@ public class AdministradorDePessoas {
     Aqui existem métodos para capturar informações via terminal e, a partir destas, realizar ações CRUD.
      */
 
-    static ArrayList<Pessoa> pessoas;
-
-    public AdministradorDePessoas(){
-        pessoas = new ArrayList<>();
-    }
+    static ArrayList<Pessoa> pessoas = new ArrayList<>();
 
     // MÉTODOS DE AÇÕES DO MENU
 
     public static void imprimirTabela(){
+
+        String formatacaoDasColunasDaTabela = "| %-25s | %-13s | %-25s | %-35s | %-14s | %-12s | %-160s |\n";
+
         System.out.println();
-        System.out.printf("| %-25s | %-13s | %-25s | %-35s | %-14s | %-12s | %-120s |\n",
-                "NOME", "TELEFONE", "EMAIL", "ENDEREÇO", "CPF", "DATA NASC.", "CONTATOS");
+        System.out.printf(formatacaoDasColunasDaTabela,"NOME", "TELEFONE", "EMAIL", "ENDEREÇO", "CPF", "DATA NASC.", "CONTATOS");
 
         if (!pessoas.isEmpty()){
             for(int i = 0; i < pessoas.size(); i++){
-                pessoas.get(i).imprimirDados();
+                Pessoa tempPessoa = pessoas.get(i);
+                System.out.printf(formatacaoDasColunasDaTabela, // formatação das colunas
+                        tempPessoa.getNome(), //nome
+                        tempPessoa.getTelefone(), //telefone
+                        tempPessoa.getEmail(), //email
+                        tempPessoa.getEndereco(), //endereço
+                        tempPessoa.getCpf(), //cpf
+                        tempPessoa.getDataDeNascimento(), //data de nascimento
+                        tempPessoa.imprimirContatos()
+                );
             }
         } else {
             System.out.println("\nNenhuma pessoa foi adicionada à lista.");
@@ -103,7 +110,7 @@ public class AdministradorDePessoas {
         boolean buscaFinalizada = false;
         Pessoa resultadoDaBusca = null;
         String cpfFormatado = "";
-        int indice = 0;
+        int indice = -1;
 
         while (!buscaFinalizada){
             System.out.println("Digite o CPF da pessoa:");
@@ -113,7 +120,6 @@ public class AdministradorDePessoas {
 
             if (ehValido){
                 cpfFormatado = AuxiliarCpf.formataCpf(cpfDigitado);
-                System.out.println("cpfFormatado:" + cpfFormatado);
 
                 indice = getIndicePorCpf(cpfFormatado);
             }
@@ -148,8 +154,68 @@ public class AdministradorDePessoas {
         }
         if (indice == pessoas.size() || pessoas.isEmpty()) indice = -1;
 
-        System.out.println("indice = "+indice);
+        System.out.println("indice = " + indice);
         return indice;
+
+    }
+
+    /*
+    Método abaixo criado apenas para a listagem não aparecer vazia no início. Mesmo assim,
+    está prevista esta situação de lista vazia, em que é mostrada a mensagem "Listagem vazia".
+     */
+
+    public static void popularListagem(){
+
+        Contato contato1otavio = new Contato(
+                "Elis",
+                "elis@gmail.com",
+                "3234-4243"
+        );
+
+        Contato contato2otavio = new Contato(
+                "Antonio",
+                "antonio@gmail.com",
+                "3234-4243"
+        );
+        Contato contato1danielle = new Contato(
+                "Lúcia",
+                "lucia@gmail.com",
+                "3455-4265"
+        );
+
+        Contato contato2danielle = new Contato(
+                "Fátima",
+                "fatima@gmail.com",
+                "3234-4899"
+        );
+
+        ArrayList<Contato> contatosOtavio = new ArrayList<>();
+        ArrayList<Contato> contatosDanielle = new ArrayList<>();
+        contatosOtavio.add(contato1otavio);
+        contatosOtavio.add(contato2otavio);
+        contatosDanielle.add(contato1danielle);
+        contatosDanielle.add(contato2danielle);
+
+        Pessoa otavio = new Pessoa(
+                "Otávio dos Santos",
+                "98888-0141",
+                "otavio1@gmail.com",
+                "Rua das Pedras, 217, Goiânia",
+                "954.706.010-48",
+                "11/08/1994",
+                contatosOtavio
+        );
+        Pessoa danielle = new Pessoa(
+                "Danielle Ribeiro",
+                "99999-0141",
+                "danielle@gmail.com",
+                "Rua 14, 123, Centro, Goiânia",
+                "751.773.540-32",
+                "27/12/1993",
+                contatosDanielle);
+
+        pessoas.add(otavio);
+        pessoas.add(danielle);
 
     }
 }

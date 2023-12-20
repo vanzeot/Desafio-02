@@ -3,12 +3,7 @@ import java.util.Scanner;
 
 public class AdministradorDeContatos {
 
-    static ArrayList<Contato> contatos;
-    Scanner scanner = new Scanner(System.in);
-
-    public AdministradorDeContatos(){
-        contatos = new ArrayList<>();
-    }
+    static Scanner scanner = new Scanner(System.in);
 
     public static int selecionarContato(ArrayList<Contato> contatos){
 
@@ -22,9 +17,7 @@ public class AdministradorDeContatos {
             }
 
             System.out.println("Insira o número correspondente ao contato desejado:");
-            indice = Integer.parseInt(
-                    new Scanner(System.in).nextLine()
-            ) - 1 ; // Remove 1 pois array começa na posição 0
+            indice = Integer.parseInt( scanner.nextLine() ) - 1 ; // Remove 1 pois array começa na posição 0
 
             // Busca contato a partir do valor inserido
             try {
@@ -39,10 +32,11 @@ public class AdministradorDeContatos {
         return indice;
     }
 
-    public void acoesDeContatos(){
+    public static ArrayList<Contato> acoesDeContatos(ArrayList<Contato> contatos){
 
         boolean emServico = true;
         int indice;
+
 
         while (emServico){
 
@@ -63,7 +57,7 @@ public class AdministradorDeContatos {
                     break;
 
                 case "3":
-                    if (this.contatos.size() > 2) {
+                    if (contatos.size() > 2) {
                         indice = AdministradorDeContatos.selecionarContato(contatos);
                         if (indice != -1) {
                             contatos.remove(indice);
@@ -82,6 +76,9 @@ public class AdministradorDeContatos {
                     System.out.println("Opção inválida.");
 
             }
+
         }
+
+        return contatos;
     }
 }

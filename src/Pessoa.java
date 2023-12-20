@@ -26,10 +26,7 @@ public class Pessoa {
     private String dataDeNascimento;
     private ArrayList<Contato> contatos = new ArrayList<>();
 
-    private AdministradorDeContatos administradorDeContatos = new AdministradorDeContatos();
-
     Scanner scanner = new Scanner(System.in);
-    //contatos;
 
     public Pessoa(String nome, String telefone, String email, String endereco, String cpf, String dataDeNascimento, ArrayList<Contato> contatos) {
         this.nome = nome;
@@ -188,7 +185,7 @@ public class Pessoa {
                     break;
 
                 case "7":
-                    administradorDeContatos.acoesDeContatos();
+                    AdministradorDeContatos.acoesDeContatos(contatos);
                     break;
 
                 case "8":
@@ -224,14 +221,6 @@ public class Pessoa {
         }
 
         return this;
-    }
-
-    public void imprimirDados(){
-
-        // UMA LINHA APENAS VAI FICAR AQUI
-        System.out.printf("| %-25s | %-13s | %-25s | %-35s | %-14s | %-12s | %-120s |\n",
-                this.nome, this.telefone, this.email, this.endereco, this.cpf, this.dataDeNascimento, imprimirContatos());
-
     }
 
     //=====================
@@ -285,6 +274,10 @@ public class Pessoa {
 
     public String getDataDeNascimento() {
         return dataDeNascimento;
+    }
+
+    public ArrayList<Contato> getContatos() {
+        return contatos;
     }
 
 }
